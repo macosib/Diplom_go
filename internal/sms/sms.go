@@ -20,15 +20,15 @@ func StartSmsService() {
 }
 
 func validateSmsData(data [][]string) []SMSData {
-	code := utils.GetAlpha2Code()
-	providers := utils.GetAllowProviders()
+	codes := utils.GetAlpha2Code(utils.AlphaCodesPath)
+	providers := utils.GetAllowProviders(utils.ProvidersPath)
 	result := make([]SMSData, 0)
 	for _, line := range data {
 		row := strings.Split(line[0], ";")
 		switch true {
 		case len(row) != 4:
 			continue
-		case !utils.IsExist(code, row[0]):
+		case !utils.IsExist(codes, row[0]):
 			continue
 		case !utils.IsExist(providers, row[3]):
 			continue

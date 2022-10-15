@@ -32,11 +32,11 @@ func getMmsData() ([]MMSData, error) {
 }
 
 func validateMmsData(data []MMSData) []MMSData {
-	code := utils.GetAlpha2Code()
-	providers := utils.GetAllowProviders()
+	codes := utils.GetAlpha2Code(utils.AlphaCodesPath)
+	providers := utils.GetAllowProviders(utils.ProvidersPath)
 	var result []MMSData
 	for _, item := range data {
-		if !utils.IsExist(code, item.Country) || !utils.IsExist(providers, item.Provider) {
+		if !utils.IsExist(codes, item.Country) || !utils.IsExist(providers, item.Provider) {
 			continue
 		}
 		result = append(result, item)
