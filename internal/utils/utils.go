@@ -9,6 +9,7 @@ import (
 
 const ProvidersPath = "./internal/utils/allow_providers.csv"
 const ProvidersCallPath = "./internal/utils/allow_providers_call.csv"
+const ProvidersEmailPath = "./internal/utils/allow_providers_email.csv"
 const AlphaCodesPath = "./internal/utils/countries_codes_and_coordinates.csv"
 
 func ReadCsvFile(fileName string) [][]string {
@@ -66,4 +67,11 @@ func ToFloat32(str string) float32 {
 		log.Println(err)
 	}
 	return float32(number)
+}
+
+func ConvertToBool(b byte) bool {
+	if b == 48 {
+		return false
+	}
+	return true
 }

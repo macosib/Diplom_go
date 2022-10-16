@@ -1,4 +1,4 @@
-package voicecall
+package voicecall_service
 
 import (
 	"Diplom_Makarov/internal/utils"

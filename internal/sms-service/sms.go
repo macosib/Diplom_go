@@ -1,4 +1,4 @@
-package sms
+package sms_service
 
 import (
 	"Diplom_Makarov/internal/utils"

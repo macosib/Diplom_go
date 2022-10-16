@@ -1,4 +1,4 @@
-package mms
+package mms_service
 
 import (
 	"Diplom_Makarov/internal/utils"
@@ -18,13 +18,18 @@ type MMSData struct {
 }
 
 func getMmsData() ([]MMSData, error) {
+	var mmsData []MMSData
 	response, err := http.Get("http://127.0.0.1:8383/mms")
 	if err != nil {
 		return nil, errors.New("Ошибка получения данных")
 	}
 	defer response.Body.Close()
+	if response.StatusCode != 200 {
+		log.Printf("Ошибка получения данных")
+		return mmsData, errors.New("Ошибка получения данных")
+	}
 	body, err := io.ReadAll(response.Body)
-	var mmsData []MMSData
+
 	if err := json.Unmarshal(body, &mmsData); err != nil {
 		return nil, errors.New("Ошибка при чтении данных")
 	}
