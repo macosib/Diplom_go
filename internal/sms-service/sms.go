@@ -2,7 +2,6 @@ package sms_service
 
 import (
 	"Diplom_Makarov/internal/utils"
-	"log"
 	"strings"
 )
 
@@ -13,10 +12,8 @@ type SMSData struct {
 	Provider     string
 }
 
-func StartSmsService() {
-	res := validateSmsData(utils.ReadCsvFile("../simulator/skillbox-diploma/sms.data"))
-	log.Println(res)
-
+func StartSmsService() []SMSData {
+	return validateSmsData(utils.ReadCsvFile("../simulator/skillbox-diploma/sms.data"))
 }
 
 func validateSmsData(data [][]string) []SMSData {

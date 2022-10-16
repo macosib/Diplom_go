@@ -4,7 +4,6 @@ import (
 	"Diplom_Makarov/internal/utils"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -21,17 +20,15 @@ func getMmsData() ([]MMSData, error) {
 	var mmsData []MMSData
 	response, err := http.Get("http://127.0.0.1:8383/mms")
 	if err != nil {
-		return nil, errors.New("Ошибка получения данных")
+		return mmsData, errors.New("Ошибка при запросе к серверу")
 	}
 	defer response.Body.Close()
 	if response.StatusCode != 200 {
-		log.Printf("Ошибка получения данных")
-		return mmsData, errors.New("Ошибка получения данных")
+		return mmsData, errors.New("Ошибка получения данных с сервера")
 	}
 	body, err := io.ReadAll(response.Body)
-
 	if err := json.Unmarshal(body, &mmsData); err != nil {
-		return nil, errors.New("Ошибка при чтении данных")
+		return mmsData, errors.New("Ошибка при чтении данных с сервера")
 	}
 	return mmsData, nil
 }
@@ -49,11 +46,11 @@ func validateMmsData(data []MMSData) []MMSData {
 	return result
 }
 
-func StartMmsService() {
+func StartMmsService() ([]MMSData, error) {
 	data, err := getMmsData()
 	if err != nil {
 		log.Printf(err.Error())
-		return
+		return data, err
 	}
-	fmt.Println(validateMmsData(data))
+	return validateMmsData(data), nil
 }

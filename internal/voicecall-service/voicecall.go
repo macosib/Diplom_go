@@ -2,7 +2,6 @@ package voicecall_service
 
 import (
 	"Diplom_Makarov/internal/utils"
-	"log"
 	"strings"
 )
 
@@ -17,10 +16,8 @@ type VoiceData struct {
 	MedianCallDuration  int
 }
 
-func StartVoiceService() {
-	res := validateVoiceData(utils.ReadCsvFile("../simulator/skillbox-diploma/voice.data"))
-	log.Println(res)
-
+func StartVoiceService() []VoiceData {
+	return validateVoiceData(utils.ReadCsvFile("../simulator/skillbox-diploma/voice.data"))
 }
 
 func validateVoiceData(data [][]string) []VoiceData {

@@ -2,7 +2,7 @@ package support_service
 
 import (
 	"encoding/json"
-	"fmt"
+	"errors"
 	"io"
 	"log"
 	"net/http"
@@ -13,27 +13,28 @@ type SupportData struct {
 	ActiveTickets int    `json:"active_tickets"`
 }
 
-func getSupportData() []SupportData {
+func getSupportData() ([]SupportData, error) {
 	var supportData []SupportData
 	response, err := http.Get("http://127.0.0.1:8383/support")
 	if err != nil {
-		log.Printf("Ошибка получения данных")
-		return supportData
+		return supportData, errors.New("Ошибка при запросе данных с сервера")
 	}
 	defer response.Body.Close()
 	if response.StatusCode != 200 {
-		log.Printf("Ошибка получения данных")
-		return supportData
+		return supportData, errors.New("Ошибка при получении данных с сервера")
 	}
 	body, err := io.ReadAll(response.Body)
 	if err := json.Unmarshal(body, &supportData); err != nil {
-		log.Printf("Ошибка при чтении данных")
-		return supportData
+		return supportData, errors.New("Ошибка при чтении данных с сервера")
 	}
-	return supportData
+	return supportData, nil
 }
 
-func StartSupportService() {
-	data := getSupportData()
-	fmt.Println(data)
+func StartSupportService() ([]SupportData, error) {
+	data, err := getSupportData()
+	if err != nil {
+		log.Printf(err.Error())
+		return data, err
+	}
+	return data, nil
 }

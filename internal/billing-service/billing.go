@@ -2,7 +2,6 @@ package billing_service
 
 import (
 	"Diplom_Makarov/internal/utils"
-	"fmt"
 )
 
 type BillingData struct {
@@ -14,7 +13,7 @@ type BillingData struct {
 	CheckoutPage   bool
 }
 
-func StartBillingService() {
+func StartBillingService() *BillingData {
 	res := utils.ReadCsvFile("../simulator/skillbox-diploma/billing.data")
 	//var resultNumber uint8
 	//for idx, value := range res[0][0] {
@@ -30,6 +29,5 @@ func StartBillingService() {
 	newBillingData.Recurring = utils.ConvertToBool(res[0][0][3])
 	newBillingData.FraudControl = utils.ConvertToBool(res[0][0][4])
 	newBillingData.CheckoutPage = utils.ConvertToBool(res[0][0][5])
-	fmt.Println(newBillingData)
-
+	return &newBillingData
 }

@@ -2,7 +2,6 @@ package email_service
 
 import (
 	"Diplom_Makarov/internal/utils"
-	"log"
 	"strings"
 )
 
@@ -12,10 +11,8 @@ type EmailData struct {
 	DeliveryTime int
 }
 
-func StartEmailService() {
-	res := validateEmailData(utils.ReadCsvFile("../simulator/skillbox-diploma/email.data"))
-	log.Println(res)
-
+func StartEmailService() []EmailData {
+	return validateEmailData(utils.ReadCsvFile("../simulator/skillbox-diploma/email.data"))
 }
 
 func validateEmailData(data [][]string) []EmailData {
