@@ -6,6 +6,7 @@ import (
 	"errors"
 	"io"
 	"net/http"
+	"sort"
 )
 
 type IncidentData struct {
@@ -27,6 +28,9 @@ func getIncidentData() ([]IncidentData, error) {
 	if err := json.Unmarshal(body, &incidentData); err != nil {
 		return incidentData, errors.New("Ошибка при чтении данных с сервера")
 	}
+	sort.SliceStable(incidentData, func(i, j int) bool {
+		return incidentData[i].Status < incidentData[j].Status
+	})
 	return incidentData, nil
 }
 

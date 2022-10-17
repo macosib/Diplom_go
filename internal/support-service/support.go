@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
-	"log"
 	"net/http"
 )
 
@@ -30,11 +29,35 @@ func getSupportData() ([]SupportData, error) {
 	return supportData, nil
 }
 
-func StartSupportService() ([]SupportData, error) {
+func StartSupportService() ([]int, error) {
 	data, err := getSupportData()
 	if err != nil {
-		log.Printf(err.Error())
-		return data, err
+		return []int{0, 0}, err
 	}
-	return data, nil
+	return validSupportData(data), nil
+}
+
+func validSupportData(data []SupportData) []int {
+	result := make([]int, 0)
+	var totalTopic int
+	var load int
+	var averageTime int
+	for _, item := range data {
+		totalTopic += item.ActiveTickets
+	}
+	switch {
+	case totalTopic < 9:
+		load = 1
+	case totalTopic <= 16:
+		load = 2
+	default:
+		load = 3
+
+	}
+	averageTime = int((float64(60) / float64(18)) * float64(totalTopic))
+	result = append(result, load)
+	result = append(result, averageTime)
+
+	return result
+
 }

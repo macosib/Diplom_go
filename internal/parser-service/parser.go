@@ -32,16 +32,16 @@ func GetResultData() ResultSetT {
 	//mms, errMms := mms_service.StartMmsService()
 	//voice := voicecall_service.StartVoiceService()
 
-	email := email_service.StartEmailService()
+	//email := email_service.StartEmailService()
 	//billing := billing_service.StartBillingService()
 	//support, errSupport := support_service.StartSupportService()
-	//incident, errIncident := incident_service.StartIncidentService()
-	fmt.Println(email)
+	incident, errIncident := incident_service.StartIncidentService()
+	//fmt.Println(email)
 	//fmt.Println(billing)
 	//fmt.Println(support)
-	//fmt.Println(incident)
+	fmt.Println(incident)
 	//fmt.Println(errSupport)
-	//fmt.Println(errIncident)
+	fmt.Println(errIncident)
 
 	return ResultSetT{}
 
