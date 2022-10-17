@@ -2,6 +2,7 @@ package sms_service
 
 import (
 	"Diplom_Makarov/internal/utils"
+	"sort"
 	"strings"
 )
 
@@ -12,8 +13,9 @@ type SMSData struct {
 	Provider     string
 }
 
-func StartSmsService() []SMSData {
-	return validateSmsData(utils.ReadCsvFile("../simulator/skillbox-diploma/sms.data"))
+func StartSmsService() [][]SMSData {
+	path := "../simulator/skillbox-diploma/sms.data"
+	return SortedSmsData(validateSmsData(utils.ReadCsvFile(path)))
 }
 
 func validateSmsData(data [][]string) []SMSData {
@@ -34,9 +36,30 @@ func validateSmsData(data [][]string) []SMSData {
 			newSmsData.Country = row[0]
 			newSmsData.Bandwidth = row[1]
 			newSmsData.ResponseTime = row[2]
-			newSmsData.Provider = row[2]
+			newSmsData.Provider = row[3]
 			result = append(result, newSmsData)
 		}
 	}
+	return result
+}
+
+func SortedSmsData(sms []SMSData) [][]SMSData {
+	countryArray := utils.GetCountryAlpha2Code(utils.AlphaCodesPath)
+	result := make([][]SMSData, 0)
+	smsDataSortedByCountryName := make([]SMSData, 0)
+	smsDataSortedByProviderName := make([]SMSData, 0)
+	for _, item := range sms {
+		item.Country = countryArray[item.Country]
+		smsDataSortedByCountryName = append(smsDataSortedByCountryName, item)
+		smsDataSortedByProviderName = append(smsDataSortedByProviderName, item)
+	}
+	sort.SliceStable(smsDataSortedByCountryName, func(i, j int) bool {
+		return smsDataSortedByCountryName[i].Country < smsDataSortedByCountryName[j].Country
+	})
+	sort.SliceStable(smsDataSortedByProviderName, func(i, j int) bool {
+		return smsDataSortedByProviderName[i].Provider < smsDataSortedByProviderName[j].Provider
+	})
+	result = append(result, smsDataSortedByCountryName)
+	result = append(result, smsDataSortedByProviderName)
 	return result
 }

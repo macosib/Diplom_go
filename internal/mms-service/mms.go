@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
-	"log"
 	"net/http"
+	"sort"
 )
 
 type MMSData struct {
@@ -46,11 +46,32 @@ func validateMmsData(data []MMSData) []MMSData {
 	return result
 }
 
-func StartMmsService() ([]MMSData, error) {
+func StartMmsService() ([][]MMSData, error) {
 	data, err := getMmsData()
 	if err != nil {
-		log.Printf(err.Error())
-		return data, err
+		var res [][]MMSData
+		return res, err
 	}
-	return validateMmsData(data), nil
+	return SortedMMSData(validateMmsData(data)), nil
+}
+
+func SortedMMSData(mms []MMSData) [][]MMSData {
+	countryArray := utils.GetCountryAlpha2Code(utils.AlphaCodesPath)
+	result := make([][]MMSData, 0)
+	mmsDataSortedByCountryName := make([]MMSData, 0)
+	mmsDataSortedByProviderName := make([]MMSData, 0)
+	for _, item := range mms {
+		item.Country = countryArray[item.Country]
+		mmsDataSortedByCountryName = append(mmsDataSortedByCountryName, item)
+		mmsDataSortedByProviderName = append(mmsDataSortedByProviderName, item)
+	}
+	sort.SliceStable(mmsDataSortedByCountryName, func(i, j int) bool {
+		return mmsDataSortedByCountryName[i].Country < mmsDataSortedByCountryName[j].Country
+	})
+	sort.SliceStable(mmsDataSortedByProviderName, func(i, j int) bool {
+		return mmsDataSortedByProviderName[i].Provider < mmsDataSortedByProviderName[j].Provider
+	})
+	result = append(result, mmsDataSortedByCountryName)
+	result = append(result, mmsDataSortedByProviderName)
+	return result
 }

@@ -6,7 +6,6 @@ import (
 	incident_service "Diplom_Makarov/internal/incident-service"
 	mms_service "Diplom_Makarov/internal/mms-service"
 	sms_service "Diplom_Makarov/internal/sms-service"
-	support_service "Diplom_Makarov/internal/support-service"
 	voicecall_service "Diplom_Makarov/internal/voicecall-service"
 	"fmt"
 )
@@ -29,24 +28,20 @@ type ResultSetT struct {
 }
 
 func GetResultData() ResultSetT {
-	sms := sms_service.StartSmsService()
-	mms, errMms := mms_service.StartMmsService()
-	voice := voicecall_service.StartVoiceService()
-	email := email_service.StartEmailService()
-	billing := billing_service.StartBillingService()
-	support, errSupport := support_service.StartSupportService()
-	incident, errIncident := incident_service.StartIncidentService()
+	//sms := sms_service.StartSmsService()
+	//mms, errMms := mms_service.StartMmsService()
+	//voice := voicecall_service.StartVoiceService()
 
-	fmt.Println(sms)
-	fmt.Println(mms)
-	fmt.Println(voice)
+	email := email_service.StartEmailService()
+	//billing := billing_service.StartBillingService()
+	//support, errSupport := support_service.StartSupportService()
+	//incident, errIncident := incident_service.StartIncidentService()
 	fmt.Println(email)
-	fmt.Println(billing)
-	fmt.Println(support)
-	fmt.Println(incident)
-	fmt.Println(errMms)
-	fmt.Println(errSupport)
-	fmt.Println(errIncident)
+	//fmt.Println(billing)
+	//fmt.Println(support)
+	//fmt.Println(incident)
+	//fmt.Println(errSupport)
+	//fmt.Println(errIncident)
 
 	return ResultSetT{}
 

@@ -35,6 +35,15 @@ func GetAlpha2Code(path string) []string {
 	return alphaCode
 }
 
+func GetCountryAlpha2Code(path string) map[string]string {
+	result := make(map[string]string, 0)
+	data := ReadCsvFile(path)
+	for _, line := range data {
+		result[line[1]] = line[0]
+	}
+	return result
+}
+
 func GetAllowProviders(path string) []string {
 	allowProviders := make([]string, 0)
 	data := ReadCsvFile(path)
