@@ -19,17 +19,15 @@ func StartSmsService() [][]SMSData {
 }
 
 func validateSmsData(data [][]string) []SMSData {
-	codes := utils.GetAlpha2Code(utils.AlphaCodesPath)
-	providers := utils.GetAllowProviders(utils.ProvidersPath)
 	result := make([]SMSData, 0)
 	for _, line := range data {
 		row := strings.Split(line[0], ";")
 		switch true {
 		case len(row) != 4:
 			continue
-		case !utils.IsExist(codes, row[0]):
+		case !utils.IsExist(utils.ConfigData.Alpha2Code, row[0]):
 			continue
-		case !utils.IsExist(providers, row[3]):
+		case !utils.IsExist(utils.ConfigData.Providers, row[3]):
 			continue
 		default:
 			var newSmsData SMSData
@@ -44,12 +42,11 @@ func validateSmsData(data [][]string) []SMSData {
 }
 
 func SortedSmsData(sms []SMSData) [][]SMSData {
-	countryArray := utils.GetCountryAlpha2Code(utils.AlphaCodesPath)
 	result := make([][]SMSData, 0)
 	smsDataSortedByCountryName := make([]SMSData, 0)
 	smsDataSortedByProviderName := make([]SMSData, 0)
 	for _, item := range sms {
-		item.Country = countryArray[item.Country]
+		item.Country = utils.ConfigData.CountryAlpha2[item.Country]
 		smsDataSortedByCountryName = append(smsDataSortedByCountryName, item)
 		smsDataSortedByProviderName = append(smsDataSortedByProviderName, item)
 	}

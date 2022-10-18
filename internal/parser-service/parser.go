@@ -28,7 +28,7 @@ type ResultSetT struct {
 }
 
 func GetResultData() ResultSetT {
-	//sms := sms_service.StartSmsService()
+	sms := sms_service.StartSmsService()
 	//mms, errMms := mms_service.StartMmsService()
 	//voice := voicecall_service.StartVoiceService()
 
@@ -36,6 +36,7 @@ func GetResultData() ResultSetT {
 	//billing := billing_service.StartBillingService()
 	//support, errSupport := support_service.StartSupportService()
 	incident, errIncident := incident_service.StartIncidentService()
+	fmt.Println(sms)
 	//fmt.Println(email)
 	//fmt.Println(billing)
 	//fmt.Println(support)

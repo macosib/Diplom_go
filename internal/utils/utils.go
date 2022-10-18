@@ -12,6 +12,26 @@ const ProvidersCallPath = "./internal/utils/allow_providers_call.csv"
 const ProvidersEmailPath = "./internal/utils/allow_providers_email.csv"
 const AlphaCodesPath = "./internal/utils/countries_codes_and_coordinates.csv"
 
+type Config struct {
+	Alpha2Code     []string
+	Providers      []string
+	ProvidersCall  []string
+	ProvidersEmail []string
+	CountryAlpha2  map[string]string
+}
+
+func newConfig() *Config {
+	return &Config{
+		GetAlpha2Code(AlphaCodesPath),
+		GetAllowProviders(ProvidersPath),
+		GetAllowProviders(ProvidersCallPath),
+		GetAllowProviders(ProvidersEmailPath),
+		GetCountryAlpha2Code(AlphaCodesPath),
+	}
+}
+
+var ConfigData = newConfig()
+
 func ReadCsvFile(fileName string) [][]string {
 	file, err := os.Open(fileName)
 	if err != nil {

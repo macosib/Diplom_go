@@ -34,11 +34,10 @@ func getMmsData() ([]MMSData, error) {
 }
 
 func validateMmsData(data []MMSData) []MMSData {
-	codes := utils.GetAlpha2Code(utils.AlphaCodesPath)
 	providers := utils.GetAllowProviders(utils.ProvidersPath)
 	var result []MMSData
 	for _, item := range data {
-		if !utils.IsExist(codes, item.Country) || !utils.IsExist(providers, item.Provider) {
+		if !utils.IsExist(utils.ConfigData.Alpha2Code, item.Country) || !utils.IsExist(providers, item.Provider) {
 			continue
 		}
 		result = append(result, item)
@@ -56,12 +55,11 @@ func StartMmsService() ([][]MMSData, error) {
 }
 
 func SortedMMSData(mms []MMSData) [][]MMSData {
-	countryArray := utils.GetCountryAlpha2Code(utils.AlphaCodesPath)
 	result := make([][]MMSData, 0)
 	mmsDataSortedByCountryName := make([]MMSData, 0)
 	mmsDataSortedByProviderName := make([]MMSData, 0)
 	for _, item := range mms {
-		item.Country = countryArray[item.Country]
+		item.Country = utils.ConfigData.CountryAlpha2[item.Country]
 		mmsDataSortedByCountryName = append(mmsDataSortedByCountryName, item)
 		mmsDataSortedByProviderName = append(mmsDataSortedByProviderName, item)
 	}

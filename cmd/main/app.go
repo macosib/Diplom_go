@@ -5,7 +5,6 @@ import (
 )
 
 func main() {
-
 	parser_service.GetResultData()
 
 	//router := mux.NewRouter()
