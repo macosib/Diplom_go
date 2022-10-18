@@ -15,10 +15,10 @@ type SMSData struct {
 
 func StartSmsService() [][]SMSData {
 	path := "../simulator/skillbox-diploma/sms.data"
-	return SortedSmsData(validateSmsData(utils.ReadCsvFile(path)))
+	return SortedSmsData(ValidateSmsData(utils.ReadCsvFile(path)))
 }
 
-func validateSmsData(data [][]string) []SMSData {
+func ValidateSmsData(data [][]string) []SMSData {
 	result := make([]SMSData, 0)
 	for _, line := range data {
 		row := strings.Split(line[0], ";")

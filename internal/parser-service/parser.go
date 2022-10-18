@@ -35,14 +35,14 @@ func GetResultData() ResultSetT {
 	//email := email_service.StartEmailService()
 	//billing := billing_service.StartBillingService()
 	//support, errSupport := support_service.StartSupportService()
-	incident, errIncident := incident_service.StartIncidentService()
+	//incident, errIncident := incident_service.StartIncidentService()
 	fmt.Println(sms)
 	//fmt.Println(email)
 	//fmt.Println(billing)
 	//fmt.Println(support)
-	fmt.Println(incident)
+	//fmt.Println(incident)
 	//fmt.Println(errSupport)
-	fmt.Println(errIncident)
+	//fmt.Println(errIncident)
 
 	return ResultSetT{}
 
