@@ -17,7 +17,7 @@ type VoiceData struct {
 }
 
 func StartVoiceService() []VoiceData {
-	return validateVoiceData(utils.ReadCsvFile("../simulator/skillbox-diploma/voice.data"))
+	return validateVoiceData(utils.ReadCsvFile(utils.ConfigData.VoiceDataPath))
 }
 
 func validateVoiceData(data [][]string) []VoiceData {

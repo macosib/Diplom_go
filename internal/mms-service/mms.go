@@ -16,6 +16,17 @@ type MMSData struct {
 	ResponseTime string `json:"response_time"`
 }
 
+func StartMmsService() ([][]MMSData, error) {
+	data, err := getMmsData()
+
+	if err != nil {
+		var res [][]MMSData
+		return res, err
+	}
+
+	return SortedMMSData(validateMmsData(data)), nil
+}
+
 func getMmsData() ([]MMSData, error) {
 	var mmsData []MMSData
 
@@ -48,17 +59,6 @@ func validateMmsData(data []MMSData) []MMSData {
 	}
 
 	return result
-}
-
-func StartMmsService() ([][]MMSData, error) {
-	data, err := getMmsData()
-
-	if err != nil {
-		var res [][]MMSData
-		return res, err
-	}
-
-	return SortedMMSData(validateMmsData(data)), nil
 }
 
 func SortedMMSData(mms []MMSData) [][]MMSData {

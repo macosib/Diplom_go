@@ -12,6 +12,14 @@ type SupportData struct {
 	ActiveTickets int    `json:"active_tickets"`
 }
 
+func StartSupportService() ([]int, error) {
+	data, err := getSupportData()
+	if err != nil {
+		return []int{0, 0}, err
+	}
+	return validSupportData(data), nil
+}
+
 func getSupportData() ([]SupportData, error) {
 	var supportData []SupportData
 
@@ -31,14 +39,6 @@ func getSupportData() ([]SupportData, error) {
 	}
 
 	return supportData, nil
-}
-
-func StartSupportService() ([]int, error) {
-	data, err := getSupportData()
-	if err != nil {
-		return []int{0, 0}, err
-	}
-	return validSupportData(data), nil
 }
 
 func validSupportData(data []SupportData) []int {

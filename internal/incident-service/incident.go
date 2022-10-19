@@ -11,7 +11,15 @@ import (
 
 type IncidentData struct {
 	Topic  string `json:"topic"`
-	Status string `json:"status"` // возможные статусы active и closed
+	Status string `json:"status"`
+}
+
+func StartIncidentService() ([]IncidentData, error) {
+	data, err := getIncidentData()
+	if err != nil {
+		return data, err
+	}
+	return validateIncidentData(data), nil
 }
 
 func getIncidentData() ([]IncidentData, error) {
@@ -49,12 +57,4 @@ func validateIncidentData(data []IncidentData) []IncidentData {
 		result = append(result, item)
 	}
 	return result
-}
-
-func StartIncidentService() ([]IncidentData, error) {
-	data, err := getIncidentData()
-	if err != nil {
-		return data, err
-	}
-	return validateIncidentData(data), nil
 }

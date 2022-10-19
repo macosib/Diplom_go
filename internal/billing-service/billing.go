@@ -14,7 +14,7 @@ type BillingData struct {
 }
 
 func StartBillingService() *BillingData {
-	res := utils.ReadCsvFile("../simulator/skillbox-diploma/billing.data")[0][0]
+	res := utils.ReadCsvFile(utils.ConfigData.BillingDataPath)[0][0]
 	//var resultNumber uint8
 	//for idx, value := range res {
 	//	if value == 49 {

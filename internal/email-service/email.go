@@ -13,9 +13,7 @@ type EmailData struct {
 }
 
 func StartEmailService() map[string][][]EmailData {
-	path := "../simulator/skillbox-diploma/email.data"
-	data := validateEmailData(utils.ReadCsvFile(path))
-	return SortedEmailData(data)
+	return SortedEmailData(validateEmailData(utils.ReadCsvFile(utils.ConfigData.EmailDataPath)))
 }
 
 func validateEmailData(data [][]string) []EmailData {

@@ -14,8 +14,7 @@ type SMSData struct {
 }
 
 func StartSmsService() [][]SMSData {
-	path := "../simulator/skillbox-diploma/sms.data"
-	return SortedSmsData(ValidateSmsData(utils.ReadCsvFile(path)))
+	return SortedSmsData(ValidateSmsData(utils.ReadCsvFile(utils.ConfigData.SmsDataPath)))
 }
 
 func ValidateSmsData(data [][]string) []SMSData {
