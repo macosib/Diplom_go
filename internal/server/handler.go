@@ -2,6 +2,7 @@ package server
 
 import (
 	"Diplom_Makarov/internal/handlers"
+	parser_service "Diplom_Makarov/internal/parser-service"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -21,13 +22,9 @@ func (h *handler) Register(r *mux.Router) {
 func (h *handler) handleConnection(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var res []byte
-	//if err != nil {
-	//	res, _ = json.Marshal(map[string]string{"status": err.Error()})
-	//	w.WriteHeader(http.StatusBadRequest)
-	//	w.Write(res)
-	//	return
-	//}
-	res, _ = json.Marshal("ok")
+	res, _ = json.Marshal(parser_service.GetResultData())
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
+
 }

@@ -1,4 +1,4 @@
-package Diplom_Makarov
+package tests
 
 import (
 	sms_service "Diplom_Makarov/internal/sms-service"
