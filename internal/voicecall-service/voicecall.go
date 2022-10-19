@@ -22,6 +22,7 @@ func StartVoiceService() []VoiceData {
 
 func validateVoiceData(data [][]string) []VoiceData {
 	result := make([]VoiceData, 0)
+
 	for _, line := range data {
 		row := strings.Split(line[0], ";")
 		switch true {
@@ -44,5 +45,6 @@ func validateVoiceData(data [][]string) []VoiceData {
 			result = append(result, newVoiceData)
 		}
 	}
+
 	return result
 }

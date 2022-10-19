@@ -7,14 +7,14 @@ import (
 	mms_service "Diplom_Makarov/internal/mms-service"
 	sms_service "Diplom_Makarov/internal/sms-service"
 	support_service "Diplom_Makarov/internal/support-service"
+	"Diplom_Makarov/internal/utils"
 	voicecall_service "Diplom_Makarov/internal/voicecall-service"
 )
 
 type ResultT struct {
-	Status bool        `json:"status"` // true, если все этапы сбора  данных прошли успешно, false во всех остальных случаях
-	Data   *ResultSetT `json:"data"`   // заполнен, если все этапы сбора  данных прошли успешно, nil во всех остальных случаях
-	Error  string      `json:"error"`  // пустая строка если все этапы  сбора данных прошли успешно, в случае ошибки заполнено
-	//текстом ошибки (детали ниже)
+	Status bool        `json:"status"`
+	Data   *ResultSetT `json:"data"`
+	Error  string      `json:"error"`
 }
 
 type ResultSetT struct {
@@ -28,7 +28,6 @@ type ResultSetT struct {
 }
 
 func GetResultData() ResultT {
-
 	sms := sms_service.StartSmsService()
 	mms, errMms := mms_service.StartMmsService()
 	voice := voicecall_service.StartVoiceService()
@@ -38,7 +37,7 @@ func GetResultData() ResultT {
 	incident, errIncident := incident_service.StartIncidentService()
 
 	if errMms != nil || errSupport != nil || errIncident != nil {
-		return ResultT{false, nil, errMms.Error() + errSupport.Error() + errIncident.Error()}
+		return ResultT{false, nil, utils.ErrorToString(errMms, errSupport, errIncident)}
 	}
 
 	return ResultT{true, &ResultSetT{sms, mms, voice, email, *billing, support, incident}, ""}

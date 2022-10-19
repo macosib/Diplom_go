@@ -21,6 +21,7 @@ func main() {
 	handler.Register(router)
 
 	serv := &http.Server{Addr: "localhost:8585", Handler: router}
+
 	go func() {
 		if err := serv.ListenAndServe(); err != nil {
 			log.Fatal("не удалось запустить сервер: ", err)

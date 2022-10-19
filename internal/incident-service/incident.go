@@ -16,21 +16,26 @@ type IncidentData struct {
 
 func getIncidentData() ([]IncidentData, error) {
 	var incidentData []IncidentData
+
 	response, err := http.Get("http://127.0.0.1:8383/accendent")
 	if err != nil {
-		return incidentData, errors.New("Ошибка при запросе к серверу")
+		return incidentData, errors.New("Не удалось отправить запрос к серверу о системе истории инцидентов")
 	}
 	defer response.Body.Close()
+
 	if response.StatusCode != 200 {
-		return incidentData, errors.New("Ошибка получения данных с сервера")
+		return incidentData, errors.New("Ошибка получения данных с сервера о системе истории инцидентов")
 	}
+
 	body, err := io.ReadAll(response.Body)
 	if err := json.Unmarshal(body, &incidentData); err != nil {
-		return incidentData, errors.New("Ошибка при чтении данных с сервера")
+		return incidentData, errors.New("Ошибка при чтении данных с сервера о системе истории инцидентов")
 	}
+
 	sort.SliceStable(incidentData, func(i, j int) bool {
 		return incidentData[i].Status < incidentData[j].Status
 	})
+
 	return incidentData, nil
 }
 

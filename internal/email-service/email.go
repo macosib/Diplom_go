@@ -63,20 +63,24 @@ func SortedEmailData(emailData []EmailData) map[string][][]EmailData {
 
 func getCountry(data []EmailData) []string {
 	result := make([]string, 0)
+
 	for _, item := range data {
 		result = append(result, item.Country)
 	}
+
 	return uniqueCountry(result)
 }
 
 func uniqueCountry(array []string) []string {
 	keys := make(map[string]bool)
 	result := make([]string, 0)
+
 	for _, item := range array {
 		if _, value := keys[item]; !value {
 			keys[item] = true
 			result = append(result, item)
 		}
 	}
+
 	return result
 }

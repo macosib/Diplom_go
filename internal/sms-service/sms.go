@@ -20,6 +20,7 @@ func StartSmsService() [][]SMSData {
 
 func ValidateSmsData(data [][]string) []SMSData {
 	result := make([]SMSData, 0)
+
 	for _, line := range data {
 		row := strings.Split(line[0], ";")
 		switch true {
@@ -38,6 +39,7 @@ func ValidateSmsData(data [][]string) []SMSData {
 			result = append(result, newSmsData)
 		}
 	}
+
 	return result
 }
 
@@ -45,18 +47,23 @@ func SortedSmsData(sms []SMSData) [][]SMSData {
 	result := make([][]SMSData, 0)
 	smsDataSortedByCountryName := make([]SMSData, 0)
 	smsDataSortedByProviderName := make([]SMSData, 0)
+
 	for _, item := range sms {
 		item.Country = utils.ConfigData.CountryAlpha2[item.Country]
 		smsDataSortedByCountryName = append(smsDataSortedByCountryName, item)
 		smsDataSortedByProviderName = append(smsDataSortedByProviderName, item)
 	}
+
 	sort.SliceStable(smsDataSortedByCountryName, func(i, j int) bool {
 		return smsDataSortedByCountryName[i].Country < smsDataSortedByCountryName[j].Country
 	})
+
 	sort.SliceStable(smsDataSortedByProviderName, func(i, j int) bool {
 		return smsDataSortedByProviderName[i].Provider < smsDataSortedByProviderName[j].Provider
 	})
+
 	result = append(result, smsDataSortedByCountryName)
 	result = append(result, smsDataSortedByProviderName)
+
 	return result
 }

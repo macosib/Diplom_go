@@ -18,39 +18,46 @@ type MMSData struct {
 
 func getMmsData() ([]MMSData, error) {
 	var mmsData []MMSData
+
 	response, err := http.Get("http://127.0.0.1:8383/mms")
 	if err != nil {
-		return mmsData, errors.New("Ошибка при запросе к серверу")
+		return mmsData, errors.New("Не удалось отправить запрос к серверу о состоянии системы MMS")
 	}
 	defer response.Body.Close()
+
 	if response.StatusCode != 200 {
-		return mmsData, errors.New("Ошибка получения данных с сервера")
+		return mmsData, errors.New("Ошибка получения данных с сервера о состоянии системы MMS")
 	}
+
 	body, err := io.ReadAll(response.Body)
 	if err := json.Unmarshal(body, &mmsData); err != nil {
-		return mmsData, errors.New("Ошибка при чтении данных с сервера")
+		return mmsData, errors.New("Ошибка при чтении данных с сервера о состоянии системы MMS")
 	}
+
 	return mmsData, nil
 }
 
 func validateMmsData(data []MMSData) []MMSData {
-	providers := utils.GetAllowProviders(utils.ProvidersPath)
 	var result []MMSData
+
 	for _, item := range data {
-		if !utils.IsExist(utils.ConfigData.Alpha2Code, item.Country) || !utils.IsExist(providers, item.Provider) {
+		if !utils.IsExist(utils.ConfigData.Alpha2Code, item.Country) || !utils.IsExist(utils.ConfigData.Providers, item.Provider) {
 			continue
 		}
 		result = append(result, item)
 	}
+
 	return result
 }
 
 func StartMmsService() ([][]MMSData, error) {
 	data, err := getMmsData()
+
 	if err != nil {
 		var res [][]MMSData
 		return res, err
 	}
+
 	return SortedMMSData(validateMmsData(data)), nil
 }
 
@@ -58,18 +65,23 @@ func SortedMMSData(mms []MMSData) [][]MMSData {
 	result := make([][]MMSData, 0)
 	mmsDataSortedByCountryName := make([]MMSData, 0)
 	mmsDataSortedByProviderName := make([]MMSData, 0)
+
 	for _, item := range mms {
 		item.Country = utils.ConfigData.CountryAlpha2[item.Country]
 		mmsDataSortedByCountryName = append(mmsDataSortedByCountryName, item)
 		mmsDataSortedByProviderName = append(mmsDataSortedByProviderName, item)
 	}
+
 	sort.SliceStable(mmsDataSortedByCountryName, func(i, j int) bool {
 		return mmsDataSortedByCountryName[i].Country < mmsDataSortedByCountryName[j].Country
 	})
+
 	sort.SliceStable(mmsDataSortedByProviderName, func(i, j int) bool {
 		return mmsDataSortedByProviderName[i].Provider < mmsDataSortedByProviderName[j].Provider
 	})
+
 	result = append(result, mmsDataSortedByCountryName)
 	result = append(result, mmsDataSortedByProviderName)
+
 	return result
 }

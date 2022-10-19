@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 )
 
 const ProvidersPath = "./internal/utils/allow_providers.csv"
@@ -103,4 +104,15 @@ func ConvertToBool(b byte) bool {
 		return false
 	}
 	return true
+}
+
+func ErrorToString(err ...error) string {
+	var errorString string
+	for _, item := range err {
+		if item != nil {
+			errorString += item.Error() + ", "
+		}
+
+	}
+	return strings.TrimRight(errorString, ", ")
 }

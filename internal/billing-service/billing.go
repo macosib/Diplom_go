@@ -23,11 +23,13 @@ func StartBillingService() *BillingData {
 	//	}
 	//}
 	var newBillingData BillingData
+
 	newBillingData.CreateCustomer = utils.ConvertToBool(res[0])
 	newBillingData.Purchase = utils.ConvertToBool(res[1])
 	newBillingData.Payout = utils.ConvertToBool(res[2])
 	newBillingData.Recurring = utils.ConvertToBool(res[3])
 	newBillingData.FraudControl = utils.ConvertToBool(res[4])
 	newBillingData.CheckoutPage = utils.ConvertToBool(res[5])
+
 	return &newBillingData
 }
