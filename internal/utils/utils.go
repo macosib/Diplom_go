@@ -2,8 +2,10 @@ package utils
 
 import (
 	"encoding/csv"
+	"fmt"
 	"log"
 	"os"
+	"path"
 	"strconv"
 	"strings"
 )
@@ -21,13 +23,19 @@ type PathConfig struct {
 	CountryAlpha2  map[string]string
 }
 
+func getBaseDir() string {
+	baseDir, _ := os.Getwd()
+	return strings.TrimRight(baseDir, "/tests")
+}
+
 func newPathConfig() *PathConfig {
+	fmt.Println(os.Getwd())
 	return &PathConfig{
-		GetAlpha2Code(AlphaCodesPath),
-		GetAllowProviders(ProvidersPath),
-		GetAllowProviders(ProvidersCallPath),
-		GetAllowProviders(ProvidersEmailPath),
-		GetCountryAlpha2Code(AlphaCodesPath),
+		GetAlpha2Code(path.Join(getBaseDir(), AlphaCodesPath)),
+		GetAllowProviders(path.Join(getBaseDir(), ProvidersPath)),
+		GetAllowProviders(path.Join(getBaseDir(), ProvidersCallPath)),
+		GetAllowProviders(path.Join(getBaseDir(), ProvidersEmailPath)),
+		GetCountryAlpha2Code(path.Join(getBaseDir(), AlphaCodesPath)),
 	}
 }
 
