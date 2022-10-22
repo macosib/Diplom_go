@@ -1,7 +1,7 @@
 package main
 
 import (
-	parser_service "Diplom_Makarov/internal/parser-service"
+	"Diplom_Makarov/internal/parser-service"
 	"Diplom_Makarov/internal/server"
 	"context"
 	"github.com/gorilla/mux"

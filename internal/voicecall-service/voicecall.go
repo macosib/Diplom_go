@@ -11,7 +11,7 @@ type VoiceData struct {
 	AverageResponseTime int
 	Provider            string
 	ConnectionStability float32
-	UnknownParameter    int
+	PurityCommunication int
 	TTFB                int
 	MedianCallDuration  int
 }
@@ -39,7 +39,7 @@ func validateVoiceData(data [][]string) []VoiceData {
 			newVoiceData.AverageResponseTime = utils.ToInt(row[2])
 			newVoiceData.Provider = row[3]
 			newVoiceData.ConnectionStability = utils.ToFloat32(row[4])
-			newVoiceData.UnknownParameter = utils.ToInt(row[5])
+			newVoiceData.PurityCommunication = utils.ToInt(row[5])
 			newVoiceData.TTFB = utils.ToInt(row[6])
 			newVoiceData.MedianCallDuration = utils.ToInt(row[7])
 			result = append(result, newVoiceData)
