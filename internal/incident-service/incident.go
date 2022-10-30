@@ -25,7 +25,7 @@ func StartIncidentService() ([]IncidentData, error) {
 func getIncidentData() ([]IncidentData, error) {
 	var incidentData []IncidentData
 
-	response, err := http.Get("http://127.0.0.1:8383/accendent")
+	response, err := http.Get(utils.ConfigData.IncidentServicePath)
 	if err != nil {
 		return incidentData, errors.New("Не удалось отправить запрос к серверу о системе истории инцидентов")
 	}

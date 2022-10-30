@@ -9,25 +9,19 @@ import (
 	"strings"
 )
 
-const ProvidersPath = "./internal/utils/allow_providers.csv"
-const ProvidersCallPath = "./internal/utils/allow_providers_call.csv"
-const ProvidersEmailPath = "./internal/utils/allow_providers_email.csv"
-const AlphaCodesPath = "./internal/utils/countries_codes_and_coordinates.csv"
-const BillingDataPath = "../simulator/skillbox-diploma/billing.data"
-const EmailDataPath = "../simulator/skillbox-diploma/email.data"
-const SmsDataPath = "../simulator/skillbox-diploma/sms.data"
-const VoiceDataPath = "../simulator/skillbox-diploma/voice.data"
-
 type PathConfig struct {
-	Alpha2Code      []string
-	Providers       []string
-	ProvidersCall   []string
-	ProvidersEmail  []string
-	CountryAlpha2   map[string]string
-	BillingDataPath string
-	EmailDataPath   string
-	SmsDataPath     string
-	VoiceDataPath   string
+	Alpha2Code          []string
+	Providers           []string
+	ProvidersCall       []string
+	ProvidersEmail      []string
+	CountryAlpha2       map[string]string
+	BillingDataPath     string
+	EmailDataPath       string
+	SmsDataPath         string
+	VoiceDataPath       string
+	SupportServicePath  string
+	MmsServicePath      string
+	IncidentServicePath string
 }
 
 func getBaseDir() string {
@@ -35,17 +29,28 @@ func getBaseDir() string {
 	return strings.TrimRight(baseDir, "/tests")
 }
 
+func getEnv(key string, defaultVal string) string {
+	if value, exists := os.LookupEnv(key); exists {
+		return value
+	}
+
+	return defaultVal
+}
+
 func newPathConfig() *PathConfig {
 	return &PathConfig{
-		GetAlpha2Code(path.Join(getBaseDir(), AlphaCodesPath)),
-		GetAllowProviders(path.Join(getBaseDir(), ProvidersPath)),
-		GetAllowProviders(path.Join(getBaseDir(), ProvidersCallPath)),
-		GetAllowProviders(path.Join(getBaseDir(), ProvidersEmailPath)),
-		GetCountryAlpha2Code(path.Join(getBaseDir(), AlphaCodesPath)),
-		path.Join(getBaseDir(), "../simulator/skillbox-diploma/billing.data"),
-		path.Join(getBaseDir(), "../simulator/skillbox-diploma/email.data"),
-		path.Join(getBaseDir(), "../simulator/skillbox-diploma/sms.data"),
-		path.Join(getBaseDir(), "../simulator/skillbox-diploma/voice.data"),
+		GetAlpha2Code(path.Join(getBaseDir(), getEnv("ALPHA_CODES_PATH", ""))),
+		GetAllowProviders(path.Join(getBaseDir(), getEnv("PROVIDERS_PATH", ""))),
+		GetAllowProviders(path.Join(getBaseDir(), getEnv("PROVIDERS_CALL_PATH", ""))),
+		GetAllowProviders(path.Join(getBaseDir(), getEnv("PROVIDERS_EMAIL_PATH", ""))),
+		GetCountryAlpha2Code(path.Join(getBaseDir(), getEnv("ALPHA_CODES_PATH", ""))),
+		path.Join(getBaseDir(), getEnv("BILLING_DATA_PATH", "")),
+		path.Join(getBaseDir(), getEnv("EMAIL_DATA_PATH", "")),
+		path.Join(getBaseDir(), getEnv("SMS_DATA_PATH", "")),
+		path.Join(getBaseDir(), getEnv("VOICE_DATA_PATH", "")),
+		getEnv("SUPPORT_SERVICE_PATH", ""),
+		getEnv("MMS_SERVICE_PATH", ""),
+		getEnv("INCIDENT_SERVICE_PATH", ""),
 	}
 }
 

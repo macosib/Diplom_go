@@ -30,7 +30,7 @@ func StartMmsService() ([][]MMSData, error) {
 func getMmsData() ([]MMSData, error) {
 	var mmsData []MMSData
 
-	response, err := http.Get("http://127.0.0.1:8383/mms")
+	response, err := http.Get(utils.ConfigData.MmsServicePath)
 	if err != nil {
 		return mmsData, errors.New("Не удалось отправить запрос к серверу о состоянии системы MMS")
 	}

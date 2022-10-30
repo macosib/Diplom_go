@@ -5,6 +5,7 @@ import (
 	"Diplom_Makarov/internal/server"
 	"context"
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 	"log"
 	"net/http"
 	"os"
@@ -12,6 +13,12 @@ import (
 	"syscall"
 	"time"
 )
+
+func init() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Не удалось обнаружить файл .env", err)
+	}
+}
 
 func main() {
 	parser_service.GetResultData()

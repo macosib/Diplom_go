@@ -1,6 +1,7 @@
 package support_service
 
 import (
+	"Diplom_Makarov/internal/utils"
 	"encoding/json"
 	"errors"
 	"io"
@@ -23,7 +24,7 @@ func StartSupportService() ([]int, error) {
 func getSupportData() ([]SupportData, error) {
 	var supportData []SupportData
 
-	response, err := http.Get("http://127.0.0.1:8383/support")
+	response, err := http.Get(utils.ConfigData.SupportServicePath)
 
 	if err != nil {
 		return supportData, errors.New("Не удалось отправить запрос к серверу о системе Support")

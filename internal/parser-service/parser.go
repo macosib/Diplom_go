@@ -41,18 +41,4 @@ func GetResultData() ResultT {
 	}
 
 	return ResultT{true, &ResultSetT{sms, mms, voice, email, *billing, support, incident}, ""}
-	//
-	//
-	//
-	//fmt.Println(sms)
-	//fmt.Println(mms)
-	//fmt.Println(voice)
-	//fmt.Println(email)
-	//fmt.Println(billing)
-	//fmt.Println(support)
-	//fmt.Println(incident)
-	//fmt.Println(errMms)
-	//fmt.Println(errSupport)
-	//fmt.Println(errIncident)
-
 }
