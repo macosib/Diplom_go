@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// VoiceData - Структура для хранениния данных сервиса VoiceData
 type VoiceData struct {
 	Country             string
 	CurrentLoad         int
@@ -16,10 +17,14 @@ type VoiceData struct {
 	MedianCallDuration  int
 }
 
+// StartVoiceService - Функция запускает сервис для получения данных о состоянии системы VoiceCall из файла формата CSV.
+// Данные считиваются и затем происходит их валидация. Результат выполениния - []VoiceData.
 func StartVoiceService() []VoiceData {
 	return validateVoiceData(utils.ReadCsvFile(utils.ConfigData.VoiceDataPath))
 }
 
+// validateVoiceData - Функция валидирует данные о состоянии системы VoiceCall. На вход принимаем [][]string, результат
+// выполнения - []VoiceData
 func validateVoiceData(data [][]string) []VoiceData {
 	result := make([]VoiceData, 0)
 

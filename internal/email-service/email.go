@@ -6,16 +6,21 @@ import (
 	"strings"
 )
 
+// EmailData - Структура для хранения данных системы Email
 type EmailData struct {
 	Country      string
 	Provider     string
 	DeliveryTime int
 }
 
+// StartEmailService - Функция запускает сервис для получения данных о состоянии системы Email из файла формата CSV.
+// Данные считиваются и затем происходит их валидация и сортировка. Результат выполениния - map[string][][]EmailData.
 func StartEmailService() map[string][][]EmailData {
 	return SortedEmailData(validateEmailData(utils.ReadCsvFile(utils.ConfigData.EmailDataPath)))
 }
 
+// validateEmailData - Функция валидирует данные о состоянии системы Email. На вход принимаем [][]string, результат
+// выполнения - []EmailData
 func validateEmailData(data [][]string) []EmailData {
 	result := make([]EmailData, 0)
 	for _, line := range data {
@@ -38,6 +43,8 @@ func validateEmailData(data [][]string) []EmailData {
 	return result
 }
 
+// SortedEmailData - Функция сортирует данные о состоянии системы Email. На вход принимаем []EmailData, результат
+// выполнения -  map[string][][]EmailData.
 func SortedEmailData(emailData []EmailData) map[string][][]EmailData {
 	result := make(map[string][][]EmailData)
 	sort.SliceStable(emailData, func(i, j int) bool {
@@ -59,6 +66,8 @@ func SortedEmailData(emailData []EmailData) map[string][][]EmailData {
 	return result
 }
 
+// getCountry - Функция получает список стран из среза []EmailData. На вход принимаем []EmailData, результат
+// выполнения -  []string.
 func getCountry(data []EmailData) []string {
 	result := make([]string, 0)
 
@@ -69,6 +78,8 @@ func getCountry(data []EmailData) []string {
 	return uniqueCountry(result)
 }
 
+// uniqueCountry - Функция удаляет все повторяющиеся элементы. а вход принимаем []string, результат
+// выполнения -  []string.
 func uniqueCountry(array []string) []string {
 	keys := make(map[string]bool)
 	result := make([]string, 0)

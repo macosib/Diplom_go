@@ -13,15 +13,11 @@ type BillingData struct {
 	CheckoutPage   bool
 }
 
+// StartBillingService - Функция запускает сервис для получения данных о о системе Billing из файла формата CSV.
+// Результат выполениния - *BillingData.
 func StartBillingService() *BillingData {
 	res := utils.ReadCsvFile(utils.ConfigData.BillingDataPath)[0][0]
-	//var resultNumber uint8
-	//for idx, value := range res {
-	//	if value == 49 {
-	//		resultNumber += uint8(math.Pow(2, float64(len(res[0][0])-idx-1)))
-	//		fmt.Println(resultNumber)
-	//	}
-	//}
+
 	var newBillingData BillingData
 
 	newBillingData.CreateCustomer = utils.ConvertToBool(res[0])

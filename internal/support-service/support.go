@@ -8,11 +8,14 @@ import (
 	"net/http"
 )
 
+// SupportData - Структура для хранения данных системы Support
 type SupportData struct {
 	Topic         string `json:"topic"`
 	ActiveTickets int    `json:"active_tickets"`
 }
 
+// StartSupportService - Функция запускает сервис для получения данных о системе Support. Результат выполения функциия -
+// []SupportData, либо ошибка.
 func StartSupportService() ([]int, error) {
 	data, err := getSupportData()
 	if err != nil {
@@ -21,6 +24,8 @@ func StartSupportService() ([]int, error) {
 	return validSupportData(data), nil
 }
 
+// getSupportData - Функция отправляет запрос к API для получения данных о текущей загрузке команды  службы поддержки.
+// Результат выполения - []SupportData,nil, в случае если данные невозможно получить функция вернет - nil, error
 func getSupportData() ([]SupportData, error) {
 	var supportData []SupportData
 
@@ -42,6 +47,9 @@ func getSupportData() ([]SupportData, error) {
 	return supportData, nil
 }
 
+// validSupportData - Функция валидирует данные о состоянии системы Support. На вход принимаем []SupportData, результат
+// выполнения - []int. Срез из двух int, первый из которых показывает загруженность службы поддержки (1–3),
+// а второй — среднее время ожидания ответа.
 func validSupportData(data []SupportData) []int {
 	result := make([]int, 0)
 	var totalTopic, load, averageTime int

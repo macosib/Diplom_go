@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// SMSData - Структура для хранения данных системы SMS
 type SMSData struct {
 	Country      string
 	Bandwidth    string
@@ -13,10 +14,14 @@ type SMSData struct {
 	Provider     string
 }
 
+// StartSmsService - Функция запускает сервис для получения данных о состоянии системы SMS из файла формата CSV.
+// Данные считиваются и затем происходит их валидация и сортировка. Результат выполениния - [][]SMSData.
 func StartSmsService() [][]SMSData {
 	return SortedSmsData(ValidateSmsData(utils.ReadCsvFile(utils.ConfigData.SmsDataPath)))
 }
 
+// ValidateSmsData - Функция валидирует данные о состоянии системы SMS. На вход принимаем [][]string, результат
+// выполнения - []SMSData
 func ValidateSmsData(data [][]string) []SMSData {
 	result := make([]SMSData, 0)
 
@@ -42,6 +47,9 @@ func ValidateSmsData(data [][]string) []SMSData {
 	return result
 }
 
+// SortedSmsData - Функция сортирует данные о состоянии системы SMS. На вход принимаем []SMSData, результат
+// выполнения -  срез [][]SMSData. Первый список отсортирован по названию провайдера от A до Z.
+// Второй список отсортирован по названию страны от A до Z.
 func SortedSmsData(sms []SMSData) [][]SMSData {
 	result := make([][]SMSData, 0)
 	smsDataSortedByCountryName := make([]SMSData, 0)

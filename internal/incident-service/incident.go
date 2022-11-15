@@ -9,11 +9,14 @@ import (
 	"sort"
 )
 
+// IncidentData - Структура для хранения данных о системе истории инцидентов
 type IncidentData struct {
 	Topic  string `json:"topic"`
 	Status string `json:"status"`
 }
 
+// StartIncidentService - Функция запускает сервис для получения данных о системе истории инцидентов. Результат выполения функциия -
+// []IncidentData, либо ошибка
 func StartIncidentService() ([]IncidentData, error) {
 	data, err := getIncidentData()
 	if err != nil {
@@ -22,6 +25,8 @@ func StartIncidentService() ([]IncidentData, error) {
 	return validateIncidentData(data), nil
 }
 
+// getIncidentData - Функция отправляет запрос к API для получения данных о системе истории инцидентов.
+// Результат выполения - []IncidentData,nil, в случае если данные невозможно получить функция вернет - nil, error
 func getIncidentData() ([]IncidentData, error) {
 	var incidentData []IncidentData
 
@@ -47,6 +52,8 @@ func getIncidentData() ([]IncidentData, error) {
 	return incidentData, nil
 }
 
+// validateIncidentData - Функция валидирует данные о системе истории инцидентов. На вход принимаем []IncidentData, результат
+// выполнения - []IncidentData.
 func validateIncidentData(data []IncidentData) []IncidentData {
 	statusAllow := [2]string{"active", "closed"}
 	var result []IncidentData

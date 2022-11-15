@@ -9,6 +9,7 @@ import (
 	"sort"
 )
 
+// MMSData - Структура для хранения данных системы MMS
 type MMSData struct {
 	Country      string `json:"country"`
 	Provider     string `json:"provider"`
@@ -16,6 +17,8 @@ type MMSData struct {
 	ResponseTime string `json:"response_time"`
 }
 
+// StartMmsService - Функция запускает сервис для получения данных о системе MMS. Результат выполения функциия -
+// [][]MMSData, либо ошибка
 func StartMmsService() ([][]MMSData, error) {
 	data, err := getMmsData()
 
@@ -27,6 +30,8 @@ func StartMmsService() ([][]MMSData, error) {
 	return SortedMMSData(validateMmsData(data)), nil
 }
 
+// getMmsData - Функция отправляет запрос к API для получения данных о состоянии системы MMS.
+// Результат выполения - []MMSData,nil, в случае если данные невозможно получить функция вернет - nil, error
 func getMmsData() ([]MMSData, error) {
 	var mmsData []MMSData
 
@@ -48,6 +53,8 @@ func getMmsData() ([]MMSData, error) {
 	return mmsData, nil
 }
 
+// validateMmsData - Функция валидирует данные о состоянии системы MMS. На вход принимаем []MMSData, результат
+// выполнения - []MMSData.
 func validateMmsData(data []MMSData) []MMSData {
 	var result []MMSData
 
@@ -61,6 +68,9 @@ func validateMmsData(data []MMSData) []MMSData {
 	return result
 }
 
+// SortedMMSData - Функция сортирует данные о состоянии системы MMS. На вход принимаем []MMSData, результат
+// выполнения -  срез [][]MMSData. Первый список отсортирован по названию провайдера от A до Z.
+// Второй список отсортирован по названию страны от A до Z.
 func SortedMMSData(mms []MMSData) [][]MMSData {
 	result := make([][]MMSData, 0)
 	mmsDataSortedByCountryName := make([]MMSData, 0)

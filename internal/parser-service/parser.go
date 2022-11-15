@@ -11,12 +11,14 @@ import (
 	voicecall_service "Diplom_Makarov/internal/voicecall-service"
 )
 
+// ResultT - Результирующая структура с данными для передачи по HTTP
 type ResultT struct {
 	Status bool        `json:"status"`
 	Data   *ResultSetT `json:"data"`
 	Error  string      `json:"error"`
 }
 
+// ResultSetT - Структура для хранениния данных со всех сервисов
 type ResultSetT struct {
 	SMS       [][]sms_service.SMSData                `json:"sms"`
 	MMS       [][]mms_service.MMSData                `json:"mms"`
@@ -27,6 +29,7 @@ type ResultSetT struct {
 	Incidents []incident_service.IncidentData        `json:"incident"`
 }
 
+// GetResultData - Функция собирает данные со всех сервисов и возвращает результ в виде структуры ResultT
 func GetResultData() ResultT {
 	sms := sms_service.StartSmsService()
 	mms, errMms := mms_service.StartMmsService()
